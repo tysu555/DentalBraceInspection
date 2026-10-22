@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c></c>
+<l>read_image (Image6, 'C:/Users/32271/Desktop/牙套上位机界面/Image/generated/找出牙套的长脚.JPG')</l>
+<l>rgb1_to_gray (Image6, GrayImage1)</l>
+<l>median_image (GrayImage1, ImageMedian1, 'circle', 3, 'mirrored')</l>
+<l>threshold (ImageMedian1, Region3, 0, 125)</l>
+<l>closing_rectangle1 (Region3, RegionClosing, 25, 25)</l>
+<l>connection (RegionClosing, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 200, 16000)</l>
+<l>count_obj (SelectedRegions, Number)</l>
+<l>fill_up (Region3, RegionFillUp3)</l>
+<l>connection (RegionFillUp3, ConnectedRegions8)</l>
+<l>select_shape (ConnectedRegions8, SelectedRegions12, ['area','width','height'], 'and', [150,50,50], [10000,150,150])</l>
+<l>select_shape (SelectedRegions12, SelectedRegions13, 'area', 'and', 7000, 10000)</l>
+<l>count_obj (SelectedRegions13, Number1)</l>
+<l>gen_empty_obj (EmptyObject1)</l>
+<l>for Index2 := 1 to Number1 by 1</l>
+<l>    select_obj (SelectedRegions13, ObjectSelected1, Index2)</l>
+<l>    opening_circle (ObjectSelected1, RegionOpening1, 20)</l>
+<l>    difference (ObjectSelected1, RegionOpening1, RegionDifference5)</l>
+<l>    connection (RegionDifference5, ConnectedRegions9)</l>
+<l>    select_shape_std (ConnectedRegions9, SelectedRegions14, 'max_area', 70)</l>
+<l>    concat_obj (EmptyObject1, SelectedRegions14, EmptyObject1)</l>
+<l>    dev_display (Image6)</l>
+<l>    dev_display (EmptyObject1)</l>
+<l>    stop()</l>
+<l>endfor</l>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
